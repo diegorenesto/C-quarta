@@ -1,0 +1,15 @@
+La condizione read(fd, buff, sizeof(buff)) > 0 veniva valutata prima dell'assegnazione a nread a causa della precedenza dell'operatore > rispetto a =
+, di conseguenza il valore di nread era 1 o 0 e causava comportamenti anomali a write.
+
+come correzione ho messo 2 parentesi dentro il while 
+while ((nread = read(fd, buff, sizeof(buff))) > 0)
+
+ho aggiunto una condizione che vada a capo ogni 8 caratteri 
+if (cont >= 8)
+      {
+         printf("\n");
+         cont = 0;
+      }
+
+inizializzando cont a 0, per poi assegnarli += nread ,
+il valore si riazzererà all'interno dell if perciò ogni 8 caratteri andrà a capo.
